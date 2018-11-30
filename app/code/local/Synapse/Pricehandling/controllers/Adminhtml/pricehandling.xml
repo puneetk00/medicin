@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <pricehandling_adminhtml_pricehandling_index>
+	<reference name="content">
+	  <block type="pricehandling/adminhtml_pricehandling" name="pricehandling" />
+	</reference>
+  </pricehandling_adminhtml_pricehandling_index>
+  <pricehandling_adminhtml_adddecoration_index>
+	<reference name="content">
+	  <block type="pricehandling/adminhtml_pricehandling" name="adddecoration" />
+	</reference>
+  </pricehandling_adminhtml_adddecoration_index>
+</layout>

@@ -1,0 +1,26 @@
+<?php
+class Synapse_Pricehandling_Model_Newordertotalobserver
+{
+	 public function saveCapshirtchargeTotal(Varien_Event_Observer $observer)
+    {
+         $order = $observer -> getEvent() -> getOrder();
+         $quote = $observer -> getEvent() -> getQuote();
+         $shippingAddress = $quote -> getShippingAddress();
+         if($shippingAddress && $shippingAddress -> getData('capshirtcharge_total')){
+             $order -> setData('capshirtcharge_total', $shippingAddress -> getData('capshirtcharge_total'));
+             }
+        else{
+             $billingAddress = $quote -> getBillingAddress();
+             $order -> setData('capshirtcharge_total', $billingAddress -> getData('capshirtcharge_total'));
+             }
+         $order -> save();
+     }
+    
+     public function saveCapshirtchargeTotalForMultishipping(Varien_Event_Observer $observer)
+    {
+         $order = $observer -> getEvent() -> getOrder();
+         $address = $observer -> getEvent() -> getAddress();
+         $order -> setData('capshirtcharge_total', $shippingAddress -> getData('capshirtcharge_total'));
+		 $order -> save();
+     }
+}

@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Synapse_Pricehandling>
+      <version>0.1.0</version>
+    </Synapse_Pricehandling>
+  </modules>
+  <frontend>
+    <routers>
+      <pricehandling>
+        <use>standard</use>
+          <args>
+            <module>Synapse_Pricehandling</module>
+            <frontName>pricehandling</frontName>
+          </args>
+      </pricehandling>
+    </routers>
+		<layout>
+		  <updates>
+			<pricehandling>
+			  <file>pricehandling.xml</file>
+			</pricehandling>
+		  </updates>
+		</layout>
+  </frontend>
+  <global>
+    <helpers>
+      <pricehandling>
+        <class>Synapse_Pricehandling_Helper</class>
+      </pricehandling>
+    </helpers>
+	<blocks>
+	  <pricehandling>
+		<class>Synapse_Pricehandling_Block</class>
+	  </pricehandling>
+	</blocks>
+	<models>
+		<pricehandling>
+			<class>Synapse_Pricehandling_Model</class>
+			<resourceModel>pricehandling_mysql4</resourceModel>
+		</pricehandling>
+		<pricehandling_mysql4>
+		<class>Synapse_Pricehandling_Model_Mysql4</class>
+		<entities>		  
+			  <pricehandling>
+				<table>product_charge</table>
+			  </pricehandling>		  
+			  <freight>
+				<table>product_charge_freight_charge</table>
+			  </freight>		  
+			  <decoration>
+				<table>product_charge_decoration_charge</table>
+			  </decoration>		  
+			  <profit>
+				<table>product_charge_profit</table>
+			  </profit>
+		</entities>
+	  </pricehandling_mysql4>
+	</models>
+    <events>
+	  <catalog_product_collection_load_after> <!-- identifier of the event we want to catch -->
+        <observers>
+          <catalog_product_collection_load_after_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>pricehandling/observer</class> <!-- observers class alias -->
+            <method>priceupdate</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </catalog_product_collection_load_after_handler>
+        </observers>
+      </catalog_product_collection_load_after>
+	  <catalog_product_get_final_price> <!-- identifier of the event we want to catch -->
+        <observers>
+          <catalog_product_get_final_price_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>pricehandling/observer</class> <!-- observers class alias -->
+            <method>getfinalpriceupdate</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </catalog_product_get_final_price_handler>
+        </observers>
+      </catalog_product_get_final_price>
+    </events>
+	</global>
+	<default>
+        <carriers>
+            <capandshirt>
+                <active>1</active>
+                <model>pricehandling/carrier_capandshirt</model>
+                <name>shippingchargecapshirt</name>
+                <title>Shipping charge</title>
+                <description>Each product shipping charge</description>
+                <sort_order>0</sort_order>
+            </capandshirt>
+        </carriers>
+    </default>
+	<admin>
+	<routers>
+	  <pricehandling>
+	    <use>admin</use>
+		<args>
+		  <module>Synapse_Pricehandling</module>
+		  <frontName>admin_pricehandling</frontName>
+		</args>
+	  </pricehandling>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <synapsecustom>
+		<children>
+		  <pricehandling module="pricehandling">
+		    <title>Manage Pricehandling</title>
+			<sort_order>0</sort_order>
+			<action>admin_pricehandling/adminhtml_pricehandling</action>
+		  </pricehandling>
+		  <decoration module="pricehandling">
+		    <title>Add Decoration Color</title>
+			<sort_order>0</sort_order>
+			<action>admin_pricehandling/adminhtml_adddecoration</action>
+		  </decoration>
+		</children>
+	  </synapsecustom>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<pricehandling translate="title" module="pricehandling">
+			  <title>Pricehandling</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <pricehandling translate="title">
+			<title>Manage Pricehandling</title>
+			<sort_order>0</sort_order>
+		  </pricehandling>
+			  </children>
+			</pricehandling>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<pricehandling>
+		  <file>pricehandling.xml</file>
+		</pricehandling>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 
